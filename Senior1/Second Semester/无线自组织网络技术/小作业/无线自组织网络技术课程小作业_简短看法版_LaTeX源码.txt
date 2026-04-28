@@ -1,0 +1,63 @@
+% !TEX program = xelatex
+\documentclass[bachelor]{thesis-uestc}
+
+\def\chinesebooktitle{无线自组织网络技术~课程小作业}
+
+% 单面打印时可去掉双页空页
+\renewcommand{\checkoddpage}{}
+
+\begin{document}
+
+\begin{chineseabstract}
+无线自组织网络是一类不依赖固定基础设施、能够由节点临时自组织形成的无线网络。本文结合两篇综述与协议比较类文献，简要谈谈自己对无线自组织网络的认识：它的优势在于部署灵活、适合应急和移动场景；难点在于拓扑变化快、路由维护复杂、能量与安全约束明显。总体来看，无线自组织网络不是传统蜂窝网络或无线局域网的替代品，而是一种在特殊场景下非常有价值的补充型网络形态。
+
+\chinesekeyword{无线自组织网络，MANET，路由协议，AODV，DSR}
+\end{chineseabstract}
+
+\thesistableofcontents
+
+\thesischapterexordium
+
+\chapter{对无线自组织网络的简要看法}
+
+\section{无线自组织网络的基本认识}
+
+我认为，无线自组织网络最突出的特点是“不依赖固定基础设施”。在普通无线网络中，终端往往需要通过基站、路由器或接入点进行通信；而在无线自组织网络中，节点之间可以直接通信，也可以通过其他节点进行多跳转发。也就是说，网络中的每个节点既可能是普通通信终端，也可能临时承担路由转发功能。这种结构使网络具有较强的灵活性和自组织能力。
+
+Agrawal等人的综述文章指出，自组织网络包括移动自组织网络（MANET）、无线传感器网络（WSN）、无线网状网络（WMN）等多种类型，并从应用、局限、特征和路由协议等方面进行了比较\citing{Agrawal2023}。这说明无线自组织网络并不是单一技术，而是一类具有共同思想的网络体系：当缺少固定基础设施，或者基础设施不可用时，节点仍然可以通过协作方式完成通信。
+
+\section{无线自组织网络的优势}
+
+在我看来，无线自组织网络的价值主要体现在三类场景中。第一类是应急救援场景，例如地震、洪水等灾害破坏了原有通信设施后，可以临时组建通信网络。第二类是军事和战术通信场景，因为节点位置不断变化，固定通信设施也可能不安全或无法部署。第三类是车联网、无人机网络、传感器监测等移动性较强的场景，这些场景都需要网络根据节点变化自动调整。
+
+Al Ajrawi和Tran的文章以移动无线自组织网络为对象，讨论了AODV和DSR等按需路由协议，并指出按需路由只有在需要传输数据时才进行路由发现，可以减少不必要的路由维护开销\citing{AlAjrawi2024}。这也让我认识到，自组织网络的核心问题不是“能不能连上”，而是“在节点不断移动、链路不断变化的情况下，怎样更稳定、更低开销地连上”。
+
+\section{无线自组织网络面临的问题}
+
+无线自组织网络虽然灵活，但也有明显短板。首先，节点移动会导致网络拓扑频繁变化，原本可用的路径可能很快失效。其次，由于无线信道容易受到干扰，网络带宽和稳定性往往不如有基础设施支撑的网络。再次，很多节点依赖电池供电，路由转发会增加能量消耗。最后，安全问题也很突出，因为网络缺少集中管理节点，恶意节点更容易伪造路由信息、窃听通信内容或破坏数据转发。
+
+因此，我认为无线自组织网络的研究重点应放在三个方面：一是设计更适合高动态环境的路由协议；二是降低节点能耗和控制开销；三是加强安全机制，尤其是在军事、救援和车联网等重要应用场景中。
+
+\section{相关国际会议与期刊}
+
+根据课程PPT中的提示，无线网络相关国际会议主要包括MobiCom、SIGCOMM、INFOCOMM、MobiHoc、SenSys、SECON、IPSN、MobiSys、ICNP、Globecom、WCNC、ICC、MASS、MSN、MSWiM、WoWMoM等；相关期刊主要包括JSAC、TMC、TON等。这些会议和期刊覆盖了无线网络、移动计算、传感器网络、网络协议与系统等方向。对于初学者来说，可以先从综述论文入手，再逐步阅读这些会议和期刊中的代表性论文。
+
+\section{小结}
+
+总的来说，我认为无线自组织网络的意义在于提高通信系统的灵活性和生存能力。它不是所有场景下的最优选择，但在没有基础设施、基础设施受损、节点高度移动或需要快速部署的情况下，它具有明显优势。未来如果能在路由效率、能量管理和安全保障方面继续改进，无线自组织网络将在应急通信、军事通信、车联网、无人机协同和物联网感知等领域发挥更大作用。
+
+\thesisacknowledgement
+
+本文是在阅读课程资料和相关英文文献的基础上完成的。通过本次小作业，我对无线自组织网络的基本概念、典型应用和主要挑战有了更加直观的理解。
+
+\begin{thebibliography}{}
+
+\bibitem{Agrawal2023}
+R. Agrawal, N. Faujdar, C. A. Tavera Romero, O. Sharma, G. M. Abdulsahib, O. I. Khalaf, R. F. Mansoor, and O. A. Ghoneim, Classification and comparison of ad hoc networks: A review, \emph{Egyptian Informatics Journal}, vol. 24, pp. 1--25, 2023. DOI: 10.1016/j.eij.2022.10.004.
+
+\bibitem{AlAjrawi2024}
+S. Al Ajrawi and B. Tran, Mobile wireless ad-hoc network routing protocols comparison for real-time military application, \emph{Spatial Information Research}, vol. 32, pp. 119--129, 2024. DOI: 10.1007/s41324-023-00535-z.
+
+\end{thebibliography}
+
+\end{document}

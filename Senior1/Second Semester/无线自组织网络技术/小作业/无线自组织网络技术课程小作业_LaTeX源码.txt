@@ -1,0 +1,236 @@
+% !TEX program = xelatex
+\documentclass[bachelor]{thesis-uestc}
+
+\usepackage{array}
+\usepackage{longtable}
+\usepackage{booktabs}
+\usepackage{graphicx}
+\usepackage{caption}
+\usepackage{float}
+\usepackage{hyperref}
+\providecommand{\citing}[1]{\cite{#1}}
+
+\def\chinesebooktitle{无线自组织网络技术~课程小作业}
+
+% 以下模板为单面打印设计
+% 如需双面打印设计，请按 thesis-uestc 模板说明修改页眉设置
+\renewcommand{\checkoddpage}{} % 去掉双页的空页，如果双面打印则不需要
+
+\begin{document}
+
+\begin{chineseabstract}
+无线自组织网络是一类不依赖固定基础设施、能够由无线节点临时组成并通过多跳方式完成通信的网络形态。与传统基础设施型无线网络相比，它更强调节点之间的分布式协作、自我组织和动态路由，因而适用于灾害救援、军事通信、车联网、环境监测、移动计算和物联网等场景。本文依据“无线自组织网络技术”课程小作业要求，围绕无线网络的基本认识、无线自组织网络的技术特点、相关国际会议与期刊，以及两篇近年英文文献展开整理和分析。第一篇文献是关于无线自组织网络分类与比较的综述论文，主要帮助理解 MANET、VANET、WSN、WMN 等网络类型及其应用、限制和挑战；第二篇文献关注面向实时军事应用的 MANET 路由协议比较，重点讨论 AODV、DSR 等按需路由协议的工作机制和性能评价。通过文献阅读可以看出，无线自组织网络的优势在于快速部署、无需中心、抗毁性强和场景适应性好；其难点主要集中在拓扑动态变化、路由维护开销、安全信任机制、节点能量受限以及服务质量保障等方面。未来，无线自组织网络需要与 5G/6G、边缘计算、智能交通、无人系统和人工智能技术进一步融合，以形成更加智能、可信和高效的分布式无线通信体系。
+
+\chinesekeyword{无线自组织网络，MANET，路由协议，AODV，DSR，国际会议，相关期刊}
+\end{chineseabstract}
+
+\thesistableofcontents
+
+\thesischapterexordium
+
+\chapter{绪论}
+
+\section{作业说明与选用文献}
+
+本文围绕课堂 PPT 中“小作业”的要求展开，主要完成三项内容：第一，结合课程内容谈谈对无线网络尤其是无线自组织网络的理解与看法；第二，整理无线网络相关国际会议；第三，整理相关期刊。为了使分析具有文献依据，本文选择两篇近年英文论文作为主要阅读材料，具体见表\ref{tab:papers}。
+
+\begin{table}[H]
+\centering
+\caption{本文选用的两篇主要文献}
+\label{tab:papers}
+\small
+\begin{tabular}{p{0.10\textwidth}p{0.18\textwidth}p{0.30\textwidth}p{0.24\textwidth}p{0.14\textwidth}}
+\toprule
+序号 & 文献类型 & 题名 & 来源 & 本文使用重点 \\
+\midrule
+\cite{Agrawal2023} & 综述论文 & Classification and comparison of ad hoc networks: A review & Egyptian Informatics Journal, 2023, 24: 1--25 & 自组织网络的概念、类型、特点、局限与发展方向 \\
+\cite{AlAjrawi2024} & 协议比较论文 & Mobile wireless ad-hoc network routing protocols comparison for real-time military application & Spatial Information Research, 2024, 32: 119--129 & MANET 中 AODV、DSR 等路由协议及军事/应急场景应用 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+文献\citing{Agrawal2023}指出，无线自组织网络中的设备可以在没有中心无线接入点或固定基础设施的情况下直接通信，网络可由两个或多个设备即时形成；该文还比较了 MANET、WSN、WMN 等不同类型网络的应用、限制、问题、特点及路由协议优缺点。文献\citing{AlAjrawi2024}则把重点放在 MANET 路由协议和军事、应急实时应用上，讨论了 AODV、DSR 等按需路由协议的发现过程、性能指标及适用场景。
+
+\section{对无线网络的总体认识}
+
+无线网络的核心价值并不只是“把网线去掉”，而是让通信摆脱固定布线和固定接入点的限制，使终端、车辆、传感器、无人机以及临时通信设备能够在更灵活的空间中建立连接。传统基础设施型无线网络通常依赖基站、路由器或接入点完成统一管理，而无线自组织网络更强调节点之间的分布式协作：每个节点既可能是数据产生者和接收者，也可能承担转发、路由维护、邻居发现等功能。也就是说，无线自组织网络把“网络管理能力”从中心设备下放到普通节点，使网络能够在缺少基础设施的情况下自发形成。
+
+从应用价值看，无线自组织网络特别适合基础设施缺失、损坏或不便建设的场景。例如，地震、洪水、火灾等灾害发生后，原有通信设施可能不可用，救援人员需要快速组建临时通信网络；军事行动、野外勘测、车联网协同、环境监测和大规模传感器部署等场景，也需要终端在动态环境中自发连接。文献\citing{Agrawal2023}对 MANET、VANET、WSN、WMN 等类型的讨论说明，自组织网络并不是单一技术，而是一组面向不同对象和场景的网络组织方式。
+
+从技术难点看，无线自组织网络的优势和问题几乎来自同一个源头：没有中心设施带来了灵活性，也带来了更高的不确定性。第一，节点移动会导致拓扑频繁变化，路由不能像有线网络那样长期稳定；第二，无线信道容易受到干扰、遮挡和带宽限制，隐藏终端、暴露终端等问题会影响传输效率；第三，许多节点依靠电池供电，能量、计算能力和存储空间有限；第四，网络缺少固定管理者，认证、密钥管理、信任评估和恶意节点检测更加困难。因此，无线自组织网络研究不能只关注“能否连通”，还必须关注“能否稳定、高效、安全和节能地连通”。
+
+\section{无线自组织网络的课程理解}
+
+我认为，无线自组织网络不是替代所有基础设施型网络，而是在特殊、动态、临时或大规模分布式场景中提供一种“可快速部署、可自我组织、可多跳转发”的补充方案。它的研究价值不只属于通信工程，也与物联网、智能交通、无人系统、应急管理和边缘计算密切相关。未来的无线网络很可能不是单一形态，而是基础设施网络、自组织网络、卫星网络、车联网和低功耗传感网络相互补充的混合体系。
+
+\chapter{两篇论文的主要内容与启发}
+
+\section{文献一：无线自组织网络的分类与比较}
+
+文献\citing{Agrawal2023}是一篇综述性质的文章，适合作为本次小作业的基础材料。该文首先说明，无线自组织网络可以在没有中心 WAP、路由器或预设基础设施的情况下形成，节点之间直接通信，必要时通过中间节点完成多跳转发。文章还强调，节点可以自由加入或离开网络，因而网络拓扑具有高度动态性。
+
+在类型划分上，文献\citing{Agrawal2023}将无线自组织网络与多个具体方向联系起来：MANET 侧重移动节点之间的临时网络，适合应急通信、军事通信和移动设备互联；VANET 强调车辆与车辆、车辆与路侧单元之间的通信，服务于智能交通和碰撞预警；WSN 由大量传感器节点组成，面向温度、湿度、压力、污染、振动等数据采集；WMN 则通过网状结构扩大覆盖范围，提高网络连通性。这样的分类说明，学习“无线自组织网络技术”时不能只停留在概念层面，而应结合具体应用场景理解不同网络形态的设计目标。
+
+文献\citing{Agrawal2023}对本文最重要的启发是：自组织网络的研究对象不仅是“能不能连上”，还包括“连上以后是否安全、稳定、高效、节能”。同样是无线自组织网络，在军事应急通信中可能更关注安全、抗毁性和实时性；在 WSN 中可能更关注能耗、覆盖和长期监测；在 VANET 中则更关注高速移动下的时延、可靠性和广播风暴控制。也就是说，网络协议不能脱离应用场景来评价。
+
+\begin{figure}[H]
+\centering
+\fbox{%
+\begin{minipage}{0.86\textwidth}
+\centering
+\textbf{无线自组织网络类型示意图}
+\vspace{0.5em}
+
+\begin{tabular}{>{\centering\arraybackslash}p{0.18\textwidth}p{0.58\textwidth}}
+MANET & 移动节点临时组网，强调动态路由与移动性适应 \\
+VANET & 车辆之间及车辆与路侧单元通信，强调低时延和高可靠 \\
+WSN & 大量传感器采集环境数据，强调能耗、覆盖与长期运行 \\
+WMN & 节点以网状结构互联，强调覆盖扩展与多路径连通 \\
+\end{tabular}
+\end{minipage}}
+\caption{无线自组织网络的典型类型及关注重点}
+\label{fig:types}
+\end{figure}
+
+图\ref{fig:types}可理解为对文献\citing{Agrawal2023}分类思想的概括：不同自组织网络共享“无中心、分布式、多跳通信”的基本特征，但在节点对象、移动速度、业务需求、能耗限制和安全要求方面存在差异。因此，课程学习中应避免把所有自组织网络简单地看成同一种网络。
+
+\section{文献二：MANET 路由协议比较与实时军事应用}
+
+文献\citing{AlAjrawi2024}关注移动无线自组织网络在实时军事应用中的路由问题。MANET 由移动节点通过无线链路组成，没有固定路由器或中心接入点，路由协议需要根据当前拓扑为数据选择合适路径。文章指出，AODV、DSR、OLSR、TBRPF 等协议都可用于 MANET，其中 AODV 和 DSR 属于典型按需路由协议，只有在节点需要发送数据时才启动路由发现过程。
+
+AODV（Ad hoc On-demand Distance Vector）的基本思想是：源节点需要向目的节点发送数据时，先广播路由请求 RREQ；中间节点继续转发请求；当目的节点或具有有效路由的节点收到请求后，返回路由应答 RREP。AODV 利用序列号区分新旧路由，减少环路风险。DSR（Dynamic Source Routing）则强调源路由，源节点在数据包中携带完整路径，中间节点按照路径转发。两者都避免了主动维护全网路由表带来的持续开销，但在高移动性场景中也可能因为频繁路由发现产生额外时延。
+
+\begin{figure}[H]
+\centering
+\fbox{%
+\begin{minipage}{0.86\textwidth}
+\centering
+\textbf{AODV 按需路由发现流程}
+\vspace{0.5em}
+
+源节点 $S$ 需要通信 $\rightarrow$ 广播 RREQ $\rightarrow$ 中间节点转发 RREQ $\rightarrow$ 目的节点 $D$ 或有效中间节点返回 RREP $\rightarrow$ 建立可用路径并开始数据传输
+\end{minipage}}
+\caption{AODV 路由发现过程示意图}
+\label{fig:aodv}
+\end{figure}
+
+图\ref{fig:aodv}说明了按需路由的基本逻辑：路由不是预先长期维护，而是在通信需求出现时启动发现过程。这种方式能够减少无业务情况下的控制开销，适合节点能量受限、业务间歇性明显的移动自组织网络。但它也意味着第一次通信前可能存在路由发现时延，因此实时应用必须在控制开销、时延、投递率和能耗之间做平衡。
+
+文献\citing{AlAjrawi2024}的价值在于把路由协议放在军事和应急场景中讨论。此类场景通常要求网络能够快速建立，节点高度机动，通信基础设施不可靠甚至不存在，并且安全性和信任机制非常重要。文章通过 NS2 仿真比较 AODV 和 DSR 等协议在吞吐量、分组投递率、能量消耗等指标上的表现。需要注意的是，阅读此类协议比较论文时，不应只记住“哪一个协议更好”，而应关注“在什么节点数、什么移动模型、什么业务负载、什么评价指标下表现更好”。协议优劣往往不是绝对结论，而是场景相关结论。
+
+\section{两篇文献的综合比较}
+
+\begin{table}[H]
+\centering
+\caption{两篇文献的比较与课程启发}
+\label{tab:comparison}
+\small
+\begin{tabular}{p{0.18\textwidth}p{0.24\textwidth}p{0.24\textwidth}p{0.24\textwidth}}
+\toprule
+比较维度 & 文献\citing{Agrawal2023} & 文献\citing{AlAjrawi2024} & 对课程学习的启发 \\
+\midrule
+研究性质 & 综述型，宏观介绍多类自组织网络 & 应用与协议比较型，聚焦 MANET 路由 & 先建立全局框架，再深入具体协议 \\
+研究对象 & MANET、VANET、WSN、WMN 等 & MANET 中的 AODV、DSR 等路由协议 & 同一课程主题可从分类、协议、应用三层理解 \\
+关键问题 & 类型、特征、限制、挑战、路由协议 & 路由发现、性能指标、军事/应急应用 & 协议优劣必须结合拓扑、业务和场景评价 \\
+主要启发 & 无线自组织网络是一组场景化网络形态 & 路由协议是 MANET 研究中的核心问题 & 课程学习应把“概念—机制—场景—指标”串联起来 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+综合来看，文献\citing{Agrawal2023}帮助我们从整体上理解无线自组织网络的概念边界和类型体系，文献\citing{AlAjrawi2024}则帮助我们把视角进一步落到 MANET 路由协议的实际评价。前者解决“无线自组织网络有哪些、为什么重要”的问题，后者解决“具体协议如何工作、怎样比较性能”的问题。二者结合起来，能够较好地支撑本次课程小作业。
+
+\chapter{相关国际会议与期刊整理}
+
+\section{无线网络相关国际会议}
+
+课堂 PPT 列出了无线网络相关国际会议。结合课程内容，可以把这些会议大致分为三类：第一类是网络与移动计算领域的顶级综合会议；第二类是移动自组织网络、传感网络和移动系统方向会议；第三类是通信、无线网络和移动多媒体方向会议。下面按照“缩写—全称—适合关注的方向”进行整理。
+
+\begin{longtable}{p{0.18\textwidth}p{0.42\textwidth}p{0.32\textwidth}}
+\caption{无线网络相关国际会议整理}\label{tab:conferences}\\
+\toprule
+类别 & 会议缩写与全称 & 适合关注的方向 \\
+\midrule
+\endfirsthead
+\toprule
+类别 & 会议缩写与全称 & 适合关注的方向 \\
+\midrule
+\endhead
+顶级网络/移动计算会议 & MobiCom（ACM International Conference on Mobile Computing and Networking）；SIGCOMM（ACM SIGCOMM Conference）；INFOCOM（IEEE Conference on Computer Communications） & 移动网络、网络系统、互联网架构、无线通信、协议设计与性能评估 \\
+\midrule
+移动自组织/传感/移动系统会议 & MobiHoc（ACM International Symposium on Mobile Ad Hoc Networking and Computing）；SenSys（ACM Conference on Embedded Networked Sensor Systems）；SECON（IEEE International Conference on Sensing, Communication and Networking）；IPSN（ACM/IEEE International Conference on Information Processing in Sensor Networks）；MobiSys（ACM International Conference on Mobile Systems, Applications, and Services）；ICNP（IEEE International Conference on Network Protocols） & MANET、WSN、IoT、嵌入式传感系统、移动系统、网络协议设计 \\
+\midrule
+通信与无线网络会议 & GLOBECOM（IEEE Global Communications Conference）；WCNC（IEEE Wireless Communications and Networking Conference）；ICC（IEEE International Conference on Communications）；MASS（IEEE International Conference on Mobile Ad-Hoc and Smart Systems）；MSN（International Conference on Mobility, Sensing and Networking）；MSWiM（ACM International Conference on Modeling, Analysis and Simulation of Wireless and Mobile Systems）；WoWMoM（IEEE International Symposium on a World of Wireless, Mobile and Multimedia Networks） & 无线通信、移动自组织网络、智能系统、建模仿真、多媒体无线网络 \\
+\bottomrule
+\end{longtable}
+
+从表\ref{tab:conferences}可以看出，无线自组织网络研究并不是孤立存在的。MobiCom、SIGCOMM 和 INFOCOM 更偏向网络系统和网络体系结构层面的高水平研究；MobiHoc、SenSys、SECON、IPSN 等会议与移动自组织网络、传感网络、物联网关系更直接；GLOBECOM、WCNC、ICC 等会议则偏通信理论、无线传输和通信网络应用。对于课程学习而言，可以优先关注 MobiHoc、INFOCOM、TMC、TON 等与路由协议、移动网络和网络性能评价关联较强的来源。
+
+\section{无线网络相关期刊}
+
+\begin{table}[H]
+\centering
+\caption{无线网络相关期刊整理}
+\label{tab:journals}
+\small
+\begin{tabular}{p{0.16\textwidth}p{0.36\textwidth}p{0.38\textwidth}}
+\toprule
+期刊缩写 & 期刊全称 & 适合阅读的主题 \\
+\midrule
+JSAC & IEEE Journal on Selected Areas in Communications & 通信网络热点专题、无线通信、移动网络、6G、车联网、边缘智能等 \\
+TMC & IEEE Transactions on Mobile Computing & 移动计算、移动网络、无线传感、移动系统、移动边缘计算等 \\
+TON & IEEE/ACM Transactions on Networking & 网络协议、网络理论、互联网体系结构、路由、拥塞控制与网络性能等 \\
+\bottomrule
+\end{tabular}
+\end{table}
+
+JSAC、TMC 和 TON 都是网络与通信领域非常重要的期刊。JSAC 往往以专题形式组织论文，适合了解某一前沿方向的系统进展；TMC 更贴近移动计算、移动网络和无线系统；TON 则强调网络协议、网络理论和性能分析。对于无线自组织网络技术课程而言，这些期刊可以作为后续查找高质量文献的重要来源。
+
+\chapter{个人思考：价值、难点与发展方向}
+
+\section{无线自组织网络的价值}
+
+我认为无线自组织网络最突出的价值是“在没有中心设施时仍然能够组织通信”。在普通校园网、家庭 Wi-Fi 或蜂窝网络中，用户通常不需要关心路由和网络组织，因为这些工作由路由器、AP 和基站完成。但在灾害救援、临时会议、野外作业、战场通信、车车协同等场景中，固定设施不一定存在，或存在但不可靠。此时，节点之间通过自组织方式建立通信链路，能够显著提高网络的可用性和抗毁性。
+
+此外，无线自组织网络与物联网的发展天然相关。未来大量传感器、可穿戴设备、无人机、车辆和边缘设备需要在局部区域内协同工作。如果每一次通信都完全依赖远端云服务器或中心基站，不仅会增加时延和成本，也会降低系统在局部故障下的韧性。自组织网络可以让附近节点先完成局部发现、数据汇聚、协同感知和多跳转发，再与更大的网络连接。
+
+\section{主要难点：路由、安全、能量与 QoS 的平衡}
+
+第一，路由是 MANET 研究的核心难题。节点移动会导致链路不断断开和重建，路由协议既要及时发现新路径，又不能产生过多控制开销。AODV 和 DSR 都采用按需方式，适合降低无用路由维护成本，但在高移动性或高业务量场景中，频繁路由发现也可能引入时延和开销\citing{AlAjrawi2024}。因此，协议设计必须在“及时性”和“控制开销”之间权衡。
+
+第二，安全问题比传统网络更复杂。自组织网络缺少固定认证中心，节点之间可能互不信任；攻击者可以通过伪造路由、丢弃分组、黑洞/灰洞攻击、Sybil 攻击等方式破坏网络。文献\citing{Agrawal2023}也强调，安全性和快速响应是自组织网络中的重要要求。对于军事、应急和车联网场景，安全不是附加功能，而应嵌入路由、邻居发现和密钥管理全过程。
+
+第三，能量和服务质量也需要综合考虑。许多传感器或移动节点依靠电池供电，如果路由协议只追求最短路径，可能导致某些关键节点过早耗尽能量；如果只追求节能，又可能牺牲时延和吞吐量。对于语音、视频、灾害现场图像回传等实时业务，网络还需要满足时延、抖动、丢包率等 QoS 要求。因此，无线自组织网络协议往往需要跨层设计，把物理层信道质量、MAC 层竞争、网络层路由和应用层需求结合起来。
+
+\section{未来发展方向}
+
+我认为未来无线自组织网络可以从以下方向发展：其一，结合人工智能进行自适应路由和资源管理，让节点根据移动性、剩余能量、链路质量和业务类型动态选择策略；其二，与 5G/6G、卫星互联网、边缘计算和车联网融合，使自组织网络不再只是孤立网络，而成为天地空地一体化网络中的局部协同单元；其三，加强轻量级安全机制，在保证身份认证和数据可信的同时降低计算与通信开销；其四，建立更贴近真实场景的实验平台和评测指标，避免只在理想化仿真环境中比较协议。
+
+总体而言，无线自组织网络的学习重点不应只是记住协议名称，而应理解协议背后的问题：为什么需要自组织？节点如何发现邻居？路由如何建立和维护？移动性怎样影响链路？安全和能耗如何限制网络性能？只有把这些问题放到具体应用场景中，才能真正理解这门课的技术意义。
+
+\chapter{全文总结与展望}
+
+\section{全文总结}
+
+通过阅读两篇论文可以看出，无线自组织网络是一种面向动态、临时和基础设施受限场景的重要网络形态。文献\citing{Agrawal2023}帮助我们从整体上认识了 MANET、VANET、WSN 和 WMN 等类型，明确了自组织网络的优势、应用和挑战；文献\citing{AlAjrawi2024}进一步说明，在 MANET 中，路由协议直接影响吞吐量、投递率、时延和能耗，AODV、DSR 等协议需要结合具体业务与场景评价。结合课堂 PPT 列出的会议和期刊可以看出，无线网络研究覆盖移动计算、通信系统、传感网络、网络协议、车联网和移动多媒体等多个方向。
+
+我的总体认识是：无线自组织网络不是传统网络的简单补充，而是未来复杂无线系统中的关键组成部分。它的优势是快速部署、无需中心、抗毁性强；它的难点是拓扑动态、资源受限、安全机制薄弱、QoS 保障困难。未来研究应更多关注场景驱动、智能化、可信安全和跨层协同，让无线自组织网络真正服务于应急救援、智能交通、无人系统和物联网等实际需求。
+
+\section{后续工作展望}
+
+后续如果继续深入学习本课程，可以从三个方面展开：第一，重点阅读 AODV、DSR、OLSR、ZRP 等经典路由协议的原始论文和实验评测论文，理解协议机制而不仅是记忆名称；第二，结合仿真工具或实验平台对典型协议进行简单复现，观察节点速度、节点密度、业务负载对网络性能的影响；第三，关注近年人工智能、边缘计算和 5G/6G 与自组织网络结合的研究，了解无线自组织网络在未来网络体系中的新定位。
+
+\thesisacknowledgement
+
+感谢老师在课堂中对无线自组织网络技术及相关国际会议、期刊的介绍。通过本次小作业，我对无线自组织网络的基本概念、应用场景、路由协议和主要挑战有了更加系统的认识。
+
+\begin{thebibliography}{99}
+
+\bibitem{Agrawal2023}
+AGRAWAL R, FAUJDAR N, TAVERA ROMERO C A, SHARMA O, ABDULSAHIB G M, KHALAF O I, MANSOOR R F, GHONEIM O A. Classification and comparison of ad hoc networks: A review[J]. Egyptian Informatics Journal, 2023, 24: 1--25. DOI: 10.1016/j.eij.2022.10.004.
+
+\bibitem{AlAjrawi2024}
+AL AJRAWI S, TRAN B. Mobile wireless ad-hoc network routing protocols comparison for real-time military application[J]. Spatial Information Research, 2024, 32: 119--129. DOI: 10.1007/s41324-023-00535-z.
+
+\end{thebibliography}
+
+\end{document}
